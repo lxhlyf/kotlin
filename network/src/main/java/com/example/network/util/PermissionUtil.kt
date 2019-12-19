@@ -39,7 +39,7 @@ object PermissionUtil {
             for (permission in permissions) {
                 check = ContextCompat.checkSelfPermission(act, permission)
                 if (check != PackageManager.PERMISSION_GRANTED) {
-                    break
+                    break  //只要数组里有一个没有被授予权限，就会全部去请求一次权限
                 }
             }
             if (check != PackageManager.PERMISSION_GRANTED) {

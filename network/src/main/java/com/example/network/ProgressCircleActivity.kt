@@ -21,6 +21,7 @@ class ProgressCircleActivity : AppCompatActivity() {
         tv_spinner.visibility = View.VISIBLE
         tv_spinner.text = progresses[0]
         tv_spinner.setOnClickListener {
+            //这是对AlertDialog的封装
             selector("请选择进度值", progresses) { i ->
                 tv_spinner.text = progresses[i]
                 tpc_progress.setProgress(progresses[i].toInt(), 40f)

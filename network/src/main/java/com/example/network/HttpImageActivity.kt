@@ -32,6 +32,7 @@ class HttpImageActivity : AppCompatActivity() {
         iv_image_code.isEnabled = false
         doAsync {
             val url = "$imageUrl${DateUtil.getFormatTime()}"
+            //请求了网络
             val bytes = URL(url).readBytes()
             //把字节数组解码为位图数据
             val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)

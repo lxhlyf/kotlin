@@ -8,6 +8,7 @@ import android.graphics.Rect
 import android.graphics.Paint.Style
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import org.jetbrains.anko.dip
 
@@ -19,6 +20,13 @@ class TextProgressCircle @JvmOverloads constructor(private val mContext: Context
     private var lineWidth = 10
     private var lineColor = Color.GREEN
     private var mTextSize: Float
+    /**
+     * 1.不能是val，在主构造器声明的属性也不可以
+     * 2.只能修饰在类中定义的属性
+     * 3.不能有自定义的getter和setter方法
+     * 4.必须是非空类型
+     * 5.不能是原生类型
+     */
     private lateinit var mRect: RectF
     private var mProgress = 0
 
@@ -43,11 +51,13 @@ class TextProgressCircle @JvmOverloads constructor(private val mContext: Context
     //重写onDraw绘图函数，绘制圆圈背景、圆圈前景，以及中央的进度文本
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        //这俩个属性必须在 measure() 被执行之后
         val width = measuredWidth  //获得当前视图的丈量宽度
         val height = measuredHeight  //获得当前视图的丈量高度
         if (width <= 0 || height <= 0) {
             return
         }
+        //保证progressDialog是一个正方形
         val diameter = Math.min(width, height)
         mRect = RectF(((width - diameter) / 2 + lineWidth).toFloat(), ((height - diameter) / 2 + lineWidth).toFloat(),
                 ((width + diameter) / 2 - lineWidth).toFloat(), ((height + diameter) / 2 - lineWidth).toFloat())
@@ -57,11 +67,16 @@ class TextProgressCircle @JvmOverloads constructor(private val mContext: Context
         canvas.drawArc(mRect, 0f, (mProgress * 360 / 100).toFloat(), false, paintFore)
         val text = "${mProgress.toString()}%"
         val rect = Rect()
-        //获得进度文本的矩形边界
+        //获得进度文本的矩  形边界
         paintText.getTextBounds(text, 0, text.length, rect)
+        //rec.centerX和rect,centerY 得到的数字为正数
         val x = getWidth() / 2 - rect.centerX()
         val y = getHeight() / 2 - rect.centerY()
-        //把文本内容绘制在进度圆圈的圆心位置
+        Log.i("location", "centerX:${rect.centerX()}, centerY:${rect.centerY()}")
+        Log.i("location", "X:${x.toFloat()}, Y:${y.toFloat()}")
+        Log.i("location", "X:${x}, Y:${y}")
+        //把文本内容绘制在进度圆圈的圆心位置,(x.toFloat(), y.toFloat()) 文本框的左下角
+        //绘制文本的时的坐标是按照view的坐标系，时相对于当前view的，所以值都是正的
         canvas.drawText(text, x.toFloat(), y.toFloat(), paintText)
     }
 
@@ -69,6 +84,7 @@ class TextProgressCircle @JvmOverloads constructor(private val mContext: Context
     fun setProgress(progress: Int, textSize: Float) {
         mProgress = progress
         if (textSize > 0) {
+            //需要px转成dip
             mTextSize = context.dip(textSize).toFloat()
             paintText.textSize = mTextSize
         }

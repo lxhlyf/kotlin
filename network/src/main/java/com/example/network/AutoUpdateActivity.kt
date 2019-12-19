@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.text.style.ForegroundColorSpan
+import com.example.network.util.HttpUrlConUtils
 import com.google.gson.Gson
 
 import kotlinx.android.synthetic.main.activity_auto_update.*
@@ -67,6 +68,7 @@ class AutoUpdateActivity : AppCompatActivity() {
                 //从服务端获取版本升级信息
                 val url = "$checkUrl?package_name=${pi.packageName}&version_name=${pi.versionName}"
                 val result = URL(url).readText()
+                //val result = HttpUrlConUtils.sendGetRequest(url)
                 //回到主线程在界面上弹窗提示待升级的版本
                 uiThread { checkUpdate(result) }
             }

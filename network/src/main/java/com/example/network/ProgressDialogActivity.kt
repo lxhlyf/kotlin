@@ -18,7 +18,9 @@ import org.jetbrains.anko.selector
  * Created by ouyangshen on 2017/9/24.
  */
 class ProgressDialogActivity : AppCompatActivity() {
+    //listOf,ListOfNotNull,mutableListOf,arrayListOf
     private val progressNames = listOf("圆圈进度", "水平进度条")
+    //intArrayOf,floatArrayOf,etc
     private val progressStyles = intArrayOf(ProgressDialog.STYLE_SPINNER, ProgressDialog.STYLE_HORIZONTAL)
     private var dialog: ProgressDialog? = null
 
@@ -26,9 +28,9 @@ class ProgressDialogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_progress_dialog)
 
-        sp_style.visibility = View.GONE
-        tv_spinner.visibility = View.VISIBLE
-        tv_spinner.text = progressNames[0]
+        sp_style.visibility = View.GONE  //没有用到
+        tv_spinner.visibility = View.VISIBLE  //用这个覆盖在spinner之上
+        tv_spinner.text = progressNames[0]   //默认选中
         tv_spinner.setOnClickListener {
             selector("请选择对话框样式", progressNames) { i ->
                 tv_spinner.text = progressNames[i]
@@ -48,6 +50,7 @@ class ProgressDialogActivity : AppCompatActivity() {
     }
 
     private val closeDialog = Runnable {
+        //如果正在显示，就去掉，然后显示展示结果
         if (dialog!!.isShowing) {
             dialog!!.dismiss()
             tv_result.text = "${DateUtil.nowTime}  ${tv_spinner.text}加载完成"
@@ -56,6 +59,7 @@ class ProgressDialogActivity : AppCompatActivity() {
 
     private inner class RefreshThread : Thread() {
         override fun run() {
+            //模拟加载过程
             for (i in 0..9) {
                 val message = Message.obtain()
                 message.what = 0
@@ -63,6 +67,7 @@ class ProgressDialogActivity : AppCompatActivity() {
                 handler.sendMessage(message)
                 Thread.sleep(1500)
             }
+            //加载完之后，展示加载结果
             handler.sendEmptyMessage(1)
         }
     }

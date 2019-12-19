@@ -42,6 +42,7 @@ class ContentProviderActivity : AppCompatActivity() {
             }.show()
         }
         tv_read_user.setOnLongClickListener {
+            //删掉所有的
             contentResolver.delete(UserInfoContent.CONTENT_URI, "1==1", null)
             showUserInfo()
             toast("成功删除所有用户信息")

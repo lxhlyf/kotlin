@@ -19,29 +19,44 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //消息传递
         btn_message.setOnClickListener { startActivity<MessageActivity>() }
+        //进度对话框
         btn_progress_dialog.setOnClickListener { startActivity<ProgressDialogActivity>() }
+        //文字进度圈
         btn_progress_circle.setOnClickListener { startActivity<ProgressCircleActivity>() }
+        //异步任务
         btn_async_task.setOnClickListener { startActivity<AsyncTaskActivity>() }
+        //Json串解析
         btn_json_parse.setOnClickListener { startActivity<JsonParseActivity>() }
+        //json串转数据类
         btn_json_convert.setOnClickListener { startActivity<JsonConvertActivity>() }
+        //http接口调用
         btn_http_request.setOnClickListener {
             if (PermissionUtil.checkPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, R.id.btn_http_request%4096)) {
                 startActivity<HttpRequestActivity>()
             }
         }
+        //http图片获取
         btn_http_image.setOnClickListener { startActivity<HttpImageActivity>() }
+        //下载apk安装包
         btn_download_apk.setOnClickListener { startActivity<DownloadApkActivity>() }
+        //下载图片
         btn_download_image.setOnClickListener { startActivity<DownloadImageActivity>() }
+        //内容提供器
         btn_content_provider.setOnClickListener { startActivity<ContentProviderActivity>() }
+        //读取联系人
         btn_content_resolver.setOnClickListener {
             if (PermissionUtil.checkMultiPermission(this, arrayOf(Manifest.permission.READ_CONTACTS,
                     Manifest.permission.WRITE_CONTACTS), R.id.btn_content_resolver % 4096)) {
                 startActivity<ContentResolverActivity>()
             }
         }
+        //流量校准
         btn_content_observer.setOnClickListener { startActivity<ContentObserverActivity>() }
+        //可变字符串
         btn_spannable.setOnClickListener { startActivity<SpannableActivity>() }
+        //商城自动升级
         btn_auto_update.setOnClickListener {
             if (PermissionUtil.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, R.id.btn_auto_update%4096)) {
                 startActivity<AutoUpdateActivity>()

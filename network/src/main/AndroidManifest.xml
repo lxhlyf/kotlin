@@ -40,30 +40,46 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MessageActivity" />
-        <activity android:name=".ProgressDialogActivity" />
-        <activity android:name=".ProgressCircleActivity" />
-        <activity android:name=".AsyncTaskActivity" />
-        <activity android:name=".JsonParseActivity" />
-        <activity android:name=".JsonConvertActivity" />
-        <activity android:name=".HttpRequestActivity" />
-        <activity android:name=".HttpImageActivity" />
-        <activity android:name=".DownloadApkActivity" />
-        <activity android:name=".DownloadImageActivity" />
-        <activity android:name=".ContentProviderActivity" />
-        <activity android:name=".ContentResolverActivity" />
-        <activity android:name=".ContentObserverActivity" />
-        <activity android:name=".SpannableActivity" />
+        <activity android:name=".MessageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ProgressDialogActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ProgressCircleActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AsyncTaskActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".JsonParseActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".JsonConvertActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".HttpRequestActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".HttpImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DownloadApkActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DownloadImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ContentProviderActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ContentResolverActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ContentObserverActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SpannableActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AutoUpdateActivity"
-            android:theme="@style/AppCompatTheme" />
+            android:theme="@style/AppCompatTheme"
+            android:screenOrientation="portrait"/>
 
         <!-- 注册下载完成事件的广播接收器 -->
         <receiver android:name=".DownloadApkActivity$DownloadCompleteReceiver">

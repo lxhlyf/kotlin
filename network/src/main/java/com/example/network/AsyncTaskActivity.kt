@@ -56,6 +56,7 @@ class AsyncTaskActivity : AppCompatActivity() {
                 //处理过程中，实时通知主线程当前的处理进度
                 uiThread { dialog.progress = ratio*100/20 }
             }
+            //runOnUIThread
             uiThread { finishLoad(book) }
         }
     }

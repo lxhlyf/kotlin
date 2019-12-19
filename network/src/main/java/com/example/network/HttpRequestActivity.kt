@@ -12,13 +12,21 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.widget.Toast
+import com.example.network.util.HttpUrlConUtils
 
 import kotlinx.android.synthetic.main.activity_http_request.*
+import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
 import java.net.URL
+import java.nio.charset.Charset
 import java.text.MessageFormat
 
 /**
@@ -59,6 +67,8 @@ class HttpRequestActivity : AppCompatActivity() {
 
     //在主线程中把定位信息连同地址信息都打印到界面上
     private fun findAddress(location: Location, address: String) {
+        Log.i("method_location:", "findAddress")
+
         tv_location.text = "$mLocation\n定位对象信息如下： " +
                 "\n\t时间：${DateUtil.nowDateTime}" +
                 "\n\t经度：${location.longitude}，纬度：${location.latitude}" +
@@ -68,19 +78,26 @@ class HttpRequestActivity : AppCompatActivity() {
 
     //位置监听器侦听到定位变化事件，就调用该函数请求详细地址
     private fun setLocationText(location: Location?) {
+        Log.i("method_location", "setLocationText location before")
+
         if (location != null) {
+
             doAsync {
                 //根据经纬度数据从谷歌地图获取详细地址信息
                 //val url = MessageFormat.format(mapsUrl, location.latitude, location.longitude)
                 //根据经纬度数据从天地图获取详细地址信息
                 val url = String.format(mapsUrl, location.longitude, location.latitude)
-                val text = URL(url).readText()
+                //val text = URL(url).readText()  //这个后面的代码都没有被执行到
+                val text = HttpUrlConUtils.sendGetRequest(url)
                 val obj = JSONObject(text)
                 //解析json字符串，其中formatted_address字段为具体地址名称
                 val result = obj.getJSONObject("result")
-                var address = result.getString("formatted_address");
+                var address = result.getString("formatted_address")
+
                 //获得该地点的详细地址之后，回到主线程把地址显示在界面上
-                uiThread { findAddress(location, address) }
+                uiThread {
+                    Log.i("method_location:", "address:${address}")
+                    findAddress(location, address) }
             }
         } else {
             tv_location.text = "$mLocation\n暂未获取到定位对象"
@@ -96,6 +113,7 @@ class HttpRequestActivity : AppCompatActivity() {
         }
         locator.requestLocationUpdates(method, 300, 0f, mLocationListener)
         val location = locator.getLastKnownLocation(method)
+        Log.i("method_location:", "beginLocation")
         setLocationText(location)
     }
 
